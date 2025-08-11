@@ -15,8 +15,15 @@
         <module>stat-common</module>
     </modules>
 
-    <artifactId>stat</artifactId>
+    <artifactId>hit</artifactId>
     <packaging>pom</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+    </dependencies>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
