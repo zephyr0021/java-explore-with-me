@@ -7,6 +7,7 @@ import ru.practicum.ewm.hit.dto.HitDto;
 import ru.practicum.ewm.hit.dto.NewEndpointHitRequest;
 import ru.practicum.ewm.hit.mapper.HitMapper;
 import ru.practicum.ewm.hit.repository.HitRepository;
+import ru.practicum.ewm.hit.repository.HitShort;
 
 import java.time.LocalDateTime;
 
@@ -26,7 +27,14 @@ public class HitService {
     }
 
     public List<HitDto> getStat(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
-
-        return hitRepository.findHitsByDate(start, end, uris).stream().map(hitMapper::toHitDto).collect(Collectors.toList());
+        List<HitShort> stat;
+        if (Boolean.TRUE.equals(unique)) {
+            stat = hitRepository.findUniqueIpHitsByDate(start, end, uris);
+        } else {
+            stat = hitRepository.findHitsByDate(start, end, uris);
+        }
+        return stat.stream()
+                .map(hitMapper::toHitDto)
+                .collect(Collectors.toList());
     }
 }

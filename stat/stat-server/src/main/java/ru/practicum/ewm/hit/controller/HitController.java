@@ -18,7 +18,7 @@ import java.util.List;
 public class HitController {
     private final HitService hitService;
 
-    @PostMapping("/hits")
+    @PostMapping("/hit")
     @ResponseStatus(HttpStatus.CREATED)
     public void saveHit(@RequestBody @Valid NewEndpointHitRequest request) {
         hitService.saveHit(request);

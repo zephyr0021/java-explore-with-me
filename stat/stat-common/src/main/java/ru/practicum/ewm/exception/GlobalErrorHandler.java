@@ -40,6 +40,6 @@ public class GlobalErrorHandler {
         String badValue = ex.getValue().toString();
         log.warn("Ошибка валидации: в поле {} передан {}", fieldPath, badValue);
         return new ErrorResponse("validation error", String.format("Не верный формат параметра %s - %s",
-                 fieldPath, badValue));
+                fieldPath, badValue));
     }
 }
