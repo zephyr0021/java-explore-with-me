@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -30,7 +30,7 @@ public class Hit {
     private String ip;
 
     @Column(nullable = false)
-    private Instant timestamp;
+    private LocalDateTime timestamp;
 
     @Override
     public boolean equals(Object o) {
