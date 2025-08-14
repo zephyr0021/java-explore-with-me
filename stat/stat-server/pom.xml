@@ -78,6 +78,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.instancio</groupId>
+            <artifactId>instancio-junit</artifactId>
+            <version>5.4.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>ru.practicum</groupId>
             <artifactId>stat-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
