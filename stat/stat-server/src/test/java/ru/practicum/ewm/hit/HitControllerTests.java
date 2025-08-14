@@ -42,8 +42,8 @@ public class HitControllerTests {
     private HitDto hit2;
     private HitDto hit3;
 
-    private String hitsUrl = "/hit";
-    private String statUrl = "/stats";
+    private final String hitsUrl = "/hit";
+    private final String statUrl = "/stats";
 
     @BeforeEach
     void setUp() {
