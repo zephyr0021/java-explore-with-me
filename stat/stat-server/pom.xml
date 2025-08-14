@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>ru.practicum</groupId>
-        <artifactId>hit</artifactId>
+        <artifactId>stat</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>hit-server</artifactId>
+    <artifactId>stat-server</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -79,7 +79,7 @@
 
         <dependency>
             <groupId>ru.practicum</groupId>
-            <artifactId>hit-common</artifactId>
+            <artifactId>stat-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

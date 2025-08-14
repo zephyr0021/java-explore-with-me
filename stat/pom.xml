@@ -15,7 +15,7 @@
         <module>stat-common</module>
     </modules>
 
-    <artifactId>hit</artifactId>
+    <artifactId>stat</artifactId>
     <packaging>pom</packaging>
 
     <dependencies>
