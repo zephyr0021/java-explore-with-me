@@ -21,4 +21,13 @@ public class HitModelTests {
         assertEquals(hit1, hit2);
         assertEquals(hit1.hashCode(), hit2.hashCode());
     }
+
+    @Test
+    void equalsSelf() {
+        Model<Hit> model = Instancio.of(Hit.class)
+                .set(Select.field("id"), 1L)
+                .toModel();
+        Hit hit1 = Instancio.create(model);
+        assertEquals(hit1, hit1);
+    }
 }
