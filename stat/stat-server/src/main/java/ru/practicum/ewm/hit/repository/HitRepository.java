@@ -11,7 +11,6 @@ import java.util.List;
 public interface HitRepository extends JpaRepository<Hit, Long> {
 
     @Query("""
-            
             SELECT h.uri as uri, h.app as app, count(h.ip) AS hits
                 FROM Hit h
                 WHERE timestamp BETWEEN :start AND :end
@@ -23,7 +22,6 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
                                       @Param("uris") List<String> uris);
 
     @Query("""
-            
             SELECT h.uri as uri, h.app as app, count(DISTINCT h.ip) AS hits
                 FROM Hit h
                 WHERE timestamp BETWEEN :start AND :end
