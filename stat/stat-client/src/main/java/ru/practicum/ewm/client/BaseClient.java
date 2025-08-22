@@ -2,10 +2,7 @@ package ru.practicum.ewm.client;
 
 import java.util.Map;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.lang.Nullable;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
@@ -50,7 +47,7 @@ public class BaseClient {
     }
 
     private <T> ResponseEntity<Object> makeAndSendRequest(HttpMethod method, String path, @Nullable Map<String, Object> parameters, @Nullable T body) {
-        HttpEntity<T> requestEntity = (body != null ? new HttpEntity<>(body) : new HttpEntity<>(null));
+        HttpEntity<T> requestEntity = new HttpEntity<>(body, new HttpHeaders());
 
         ResponseEntity<Object> serverResponse;
         try {
