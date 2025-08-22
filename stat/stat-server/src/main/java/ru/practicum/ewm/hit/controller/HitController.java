@@ -1,6 +1,5 @@
 package ru.practicum.ewm.hit.controller;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,7 @@ public class HitController {
 
     @PostMapping("/hit")
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveHit(@RequestBody @Valid NewEndpointHitRequest request) {
+    public void saveHit(@RequestBody NewEndpointHitRequest request) {
         hitService.saveHit(request);
     }
 
