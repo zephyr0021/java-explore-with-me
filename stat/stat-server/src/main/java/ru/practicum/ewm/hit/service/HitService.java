@@ -12,7 +12,6 @@ import ru.practicum.ewm.hit.repository.HitShort;
 import java.time.LocalDateTime;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +34,6 @@ public class HitService {
         }
         return stat.stream()
                 .map(hitMapper::toHitDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 }
