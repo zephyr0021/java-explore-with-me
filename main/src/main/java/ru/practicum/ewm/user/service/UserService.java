@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.ewm.common.exception.NotFoundException;
+import ru.practicum.ewm.user.dto.NewUserRequest;
 import ru.practicum.ewm.user.dto.UserDto;
 import ru.practicum.ewm.user.mapper.UserMapper;
 import ru.practicum.ewm.user.model.User;
@@ -13,6 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -28,6 +32,19 @@ public class UserService {
         return users.stream()
                 .map(userMapper::toUserDto)
                 .toList();
+    }
 
+    @Transactional
+    public UserDto createUser(NewUserRequest request) {
+        User user = userRepository.save(userMapper.toUser(request));
+        return userMapper.toUserDto(user);
+    }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        int rows = userRepository.deleteUser(userId);
+        if (rows == 0) {
+            throw new NotFoundException("User with id = " + userId + " was not found");
+        }
     }
 }
