@@ -1,8 +1,6 @@
 package ru.practicum.ewm.user.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.common.exception.NotFoundException;
@@ -22,12 +20,11 @@ public class UserService {
     private final UserMapper userMapper;
 
     public List<UserDto> getUsers(List<Long> ids, Integer from, Integer size) {
-        Pageable page = PageRequest.of(from, size);
         List<User> users;
         if (ids == null || ids.isEmpty()) {
-            users = userRepository.findAll(page).getContent();
+            users = userRepository.findByOffset(from, size);
         } else {
-            users = userRepository.findByIdIn(ids, page);
+            users = userRepository.findByIdAndOffset(ids, from, size);
         }
         return users.stream()
                 .map(userMapper::toUserDto)
