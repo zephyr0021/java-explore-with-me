@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ru.practicum.ewm.common.response.ErrorResponse;
 
 import java.time.LocalDateTime;
@@ -27,11 +28,27 @@ public class GlobalErrorHandler {
                 LocalDateTime.now());
     }
 
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleValidationException(MethodArgumentTypeMismatchException e) {
+        return new ErrorResponse("BAD_REQUEST",
+                "Incorrectly made request.",
+                e.getMessage(),
+                LocalDateTime.now());
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         return new ErrorResponse("CONFLICT", "Integrity constraint has been violated.", e.getMessage(),
                 LocalDateTime.now());
+    }
+
+    @ExceptionHandler(CategoryNotEmptyException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleCategoryNotEmptyException(CategoryNotEmptyException e) {
+        return new ErrorResponse("CONFLICT", "For the requested operation the conditions are not met.",
+                e.getMessage(), LocalDateTime.now());
     }
 
     @ExceptionHandler(NotFoundException.class)

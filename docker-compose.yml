@@ -57,7 +57,7 @@ services:
     ports:
       - "6432:5432"
     volumes:
-      - ./stat-postgres:/var/lib/postgresql/data/
+      - ./main-postgres:/var/lib/postgresql/data/
     environment:
       - POSTGRES_PASSWORD=12345
       - POSTGRES_USER=dbuser
