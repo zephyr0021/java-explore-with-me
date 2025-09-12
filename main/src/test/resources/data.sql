@@ -53,4 +53,4 @@ VALUES ('Электроника'),
        ('Смартфоны и гаджеты');
 
 INSERT INTO events (title, category_id)
-VALUES ("Спектакль", 5);
+VALUES ('Спектакль', 5);
