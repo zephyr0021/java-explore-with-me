@@ -13,7 +13,30 @@ CREATE TABLE IF NOT EXISTS categories
 
 CREATE TABLE IF NOT EXISTS events
 (
-    id    BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    category_id BIGINT REFERENCES categories(id)
+    id                 BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    annotation         VARCHAR(2000)               NOT NULL,
+    category_id        BIGINT                      NOT NULL REFERENCES categories (id),
+    description        VARCHAR(7000)               NOT NULL,
+    event_date         TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    lat                FLOAT8                      NOT NULL,
+    lon                FLOAT8                      NOT NULL,
+    paid               BOOLEAN DEFAULT FALSE       NOT NULL,
+    participant_limit  INTEGER DEFAULT 0           NOT NULL,
+    request_moderation BOOLEAN DEFAULT TRUE        NOT NULL,
+    title              VARCHAR(120)                NOT NULL,
+    created_on         TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    initiator_id            BIGINT                      NOT NULL REFERENCES users (id),
+    views              BIGINT  DEFAULT 0           NOT NULL,
+    published_on       TIMESTAMP,
+    event_state        VARCHAR(20)                 NOT NULL DEFAULT 'PENDING',
+    CONSTRAINT event_valid_state CHECK (event_state IN ('PENDING', 'PUBLISHED', 'CANCELED'))
+);
+
+CREATE TABLE IF NOT EXISTS events_requests
+(
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    event_id BIGINT NOT NULL REFERENCES events (id) ON DELETE CASCADE,
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+    requester_id BIGINT NOT NULL REFERENCES users (id),
+    CONSTRAINT request_valid_status CHECK (status IN ('PENDING', 'REJECTED', 'CONFIRMED'))
 )
