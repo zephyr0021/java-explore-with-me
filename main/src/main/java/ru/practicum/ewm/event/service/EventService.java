@@ -11,6 +11,9 @@ import ru.practicum.ewm.event.mapper.EventMapper;
 import ru.practicum.ewm.event.model.EventState;
 import ru.practicum.ewm.event.repository.EventRepository;
 import ru.practicum.ewm.event.repository.EventWithRequests;
+import ru.practicum.ewm.hit.dto.NewEndpointHitRequest;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +26,14 @@ public class EventService {
     public EventFullDto getEvent(Long id, HttpServletRequest request) {
         EventWithRequests eventWithRequests = eventRepository.findEventByIdAndState(id, EventState.PUBLISHED)
                 .orElseThrow(() -> new NotFoundException("Event with id=" + id + " was not found"));
+        NewEndpointHitRequest newHit = new NewEndpointHitRequest();
+
+        newHit.setApp("main-app");
+        newHit.setIp(request.getRemoteAddr());
+        newHit.setUri(request.getRequestURI());
+        newHit.setTimestamp(LocalDateTime.now());
+
+        statClient.saveHit(newHit);
 
         return eventMapper.toEventFullDto(eventWithRequests.getEvent(), eventWithRequests.getConfirmedRequests());
     }

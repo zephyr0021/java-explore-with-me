@@ -18,22 +18,7 @@ services:
 #      - SPRING_DATASOURCE_USERNAME=dbuser
 #      - SPRING_DATASOURCE_PASSWORD=12345
 #
-#  stats-client:
-#    ports:
-#      - "8080:8080"
-#    build: stat/stat-client
-#    image: stat-client
-#    container_name: stat-client
-#    depends_on:
-#      - stats-server
-#    healthcheck:
-#      test: ["CMD", "curl", "-f", "http://localhost:8080/" ]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 5
-#    environment:
-#      - STATS_SERVER_URL=http://server:9090
-#
+
   stats-db:
     image: postgres:16.1
     container_name: stats-db
