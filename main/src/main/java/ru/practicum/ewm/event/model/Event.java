@@ -5,11 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import ru.practicum.ewm.category.model.Category;
-import ru.practicum.ewm.event_request.model.EventRequest;
 import ru.practicum.ewm.user.model.User;
 
-import java.time.OffsetDateTime;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -34,7 +32,7 @@ public class Event {
     private String description;
 
     @Column(nullable = false, name = "event_date")
-    private OffsetDateTime eventDate;
+    private LocalDateTime eventDate;
 
     @Embedded
     private Location location;
@@ -52,7 +50,7 @@ public class Event {
     private String title;
 
     @Column(nullable = false, name = "created_on")
-    private OffsetDateTime createdOn;
+    private LocalDateTime createdOn;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
@@ -60,17 +58,17 @@ public class Event {
     private User initiator;
 
     @Column(nullable = false)
-    private Integer views;
+    private Long views;
 
     @Column(name = "published_on")
-    private OffsetDateTime publishedOn;
+    private LocalDateTime publishedOn;
 
     @Column(name = "event_state")
     @Enumerated(EnumType.STRING)
     private EventState state;
 
     @Transient
-    private List<EventRequest> requests;
+    private Long confirmedRequests;
 
     @Override
     public boolean equals(Object o) {

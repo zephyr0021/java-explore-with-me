@@ -52,5 +52,31 @@ VALUES ('Электроника'),
        ('Компьютеры и комплектующие'),
        ('Смартфоны и гаджеты');
 
-INSERT INTO events (title, category_id)
-VALUES ('Спектакль', 5);
+INSERT INTO events (annotation,
+                    category_id,
+                    description,
+                    event_date,
+                    lat,
+                    lon,
+                    title,
+                    created_on,
+                    initiator_id,
+                    paid,
+                    participant_limit,
+                    request_moderation,
+                    views,
+                    event_state)
+VALUES ('Краткая аннотация события',
+        5,
+        'Подробное описание события на 2–3 предложения.',
+        '2025-10-01 18:00:00',
+        56.8389,
+        60.6057,
+        'Название события',
+        NOW(),
+        4,
+        FALSE,
+        0,
+        TRUE,
+        0,
+        'PENDING');
