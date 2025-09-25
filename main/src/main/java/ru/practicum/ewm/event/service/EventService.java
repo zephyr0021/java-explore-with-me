@@ -8,9 +8,9 @@ import ru.practicum.ewm.client.StatClient;
 import ru.practicum.ewm.common.exception.NotFoundException;
 import ru.practicum.ewm.event.dto.EventFullDto;
 import ru.practicum.ewm.event.mapper.EventMapper;
+import ru.practicum.ewm.event.model.Event;
 import ru.practicum.ewm.event.model.EventState;
 import ru.practicum.ewm.event.repository.EventRepository;
-import ru.practicum.ewm.event.repository.EventWithRequests;
 import ru.practicum.ewm.hit.dto.NewEndpointHitRequest;
 
 import java.time.LocalDateTime;
@@ -24,7 +24,7 @@ public class EventService {
     private final StatClient statClient;
 
     public EventFullDto getEvent(Long id, HttpServletRequest request) {
-        EventWithRequests eventWithRequests = eventRepository.findEventByIdAndState(id, EventState.PUBLISHED)
+        Event event = eventRepository.findEventByIdAndState(id, EventState.PUBLISHED)
                 .orElseThrow(() -> new NotFoundException("Event with id=" + id + " was not found"));
         NewEndpointHitRequest newHit = new NewEndpointHitRequest();
 
@@ -35,23 +35,12 @@ public class EventService {
 
         statClient.saveHit(newHit);
 
-        return eventMapper.toEventFullDto(eventWithRequests.getEvent(), eventWithRequests.getConfirmedRequests());
+        return eventMapper.toEventFullDto(event);
     }
 
 //    public List<EventDto> getEvents(String text, List<Long> categoryIds, Boolean paid, LocalDateTime rangeStart,
 //                                    LocalDateTime rangeEnd, Boolean onlyAvailable, String sort, Integer from,
 //                                    Integer size) {
-//        List<EventShortWithRequests> events;
-//        if (categoryIds == null || categoryIds.isEmpty()) {
-//            events = eventRepository.findEventsWithoutCategory(text, paid,
-//                    rangeStart, rangeEnd, onlyAvailable);
-//        } else {
-//            events = eventRepository.findEventsWithAvailable(text, categoryIds, paid,
-//                    rangeStart, rangeEnd, onlyAvailable);
-//        }
-//
-//        return events.stream()
-//                .map(event -> eventMapper.toEventDto(event.getEventShort(), event.getConfirmedRequests()))
-//                .toList();
+//        QEvent event = QEvent.event;
 //    }
 }

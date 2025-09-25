@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Formula;
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.user.model.User;
 
@@ -67,7 +68,7 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private EventState state;
 
-    @Transient
+    @Formula("(SELECT COUNT(er.id) FROM events_requests er WHERE er.event_id = id AND er.status='CONFIRMED')")
     private Long confirmedRequests;
 
     @Override
