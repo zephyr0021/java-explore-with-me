@@ -55,7 +55,7 @@ public class PublicEventService {
         Pageable pageable = new OffsetBasedPageRequest(from, size, sorting);
 
         Specification<Event> specifications = EventSpecifications.withFilters(text, categoryIds, paid,
-                rangeStart, rangeEnd, onlyAvailable);
+                rangeStart, rangeEnd, onlyAvailable, EventState.PUBLISHED);
 
         List<Event> events = eventRepository.findAll(specifications, pageable).getContent();
 

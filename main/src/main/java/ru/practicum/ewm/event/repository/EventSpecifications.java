@@ -3,6 +3,7 @@ package ru.practicum.ewm.event.repository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import ru.practicum.ewm.event.model.Event;
+import ru.practicum.ewm.event.model.EventState;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,9 +12,13 @@ import java.util.List;
 public class EventSpecifications {
     public static Specification<Event> withFilters(String text, List<Long> categoryIds, Boolean paid,
                                                    LocalDateTime rangeStart, LocalDateTime rangeEnd,
-                                                   Boolean onlyAvailable) {
+                                                   Boolean onlyAvailable, EventState state) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
+
+            if (state != null)  {
+                predicates.add(cb.equal(root.get("state"), state));
+            }
 
             if (text != null && !text.isEmpty()) {
                 predicates.add(cb.or(
