@@ -16,7 +16,7 @@ public class EventSpecifications {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            if (state != null)  {
+            if (state != null) {
                 predicates.add(cb.equal(root.get("state"), state));
             }
 
@@ -53,6 +53,40 @@ public class EventSpecifications {
 
             return cb.and(predicates.toArray(new Predicate[0]));
 
+        };
+    }
+
+    public static Specification<Event> withFilters(List<Long> usersIds, List<EventState> states,
+                                                   List<Long> categoriesIds, LocalDateTime rangeStart,
+                                                   LocalDateTime rangeEnd) {
+        return (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (usersIds != null && !usersIds.isEmpty()) {
+                predicates.add(root.get("initiator").get("id").in(usersIds));
+            }
+
+            if (states != null && !states.isEmpty()) {
+                predicates.add(root.get("state").in(states));
+            }
+
+            if (categoriesIds != null && !categoriesIds.isEmpty()) {
+                predicates.add(root.get("category").get("id").in(categoriesIds));
+            }
+
+            if (rangeStart == null && rangeEnd == null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("eventDate"), LocalDateTime.now()));
+            }
+
+            if (rangeStart != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("eventDate"), rangeStart));
+            }
+
+            if (rangeEnd != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("eventDate"), rangeEnd));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
         };
     }
 }

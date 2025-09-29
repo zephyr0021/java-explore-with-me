@@ -12,5 +12,7 @@ public interface CategoryMapper {
 
     Category toCategory(CategoryRequest request);
 
+    Category toCategory(CategoryDto dto);
+
     Category updateCategory(CategoryRequest request, @MappingTarget Category category);
 }
