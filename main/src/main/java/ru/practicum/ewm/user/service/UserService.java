@@ -31,6 +31,11 @@ public class UserService {
                 .toList();
     }
 
+    public User getUserModel(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User with id=" + id + " was not found"));
+    }
+
     @Transactional
     public UserDto createUser(NewUserRequest request) {
         User user = userRepository.save(userMapper.toUser(request));

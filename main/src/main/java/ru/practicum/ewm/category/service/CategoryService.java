@@ -32,6 +32,11 @@ public class CategoryService {
                 .orElseThrow(() -> new NotFoundException("Category with id=" + id + " was not found"));
     }
 
+    public Category getCategoryModel(Long id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Category with id=" + id + " was not found"));
+    }
+
     @Transactional
     public CategoryDto createCategory(CategoryRequest request) {
         Category category = categoryRepository.save(categoryMapper.toCategory(request));

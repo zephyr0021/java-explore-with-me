@@ -30,19 +30,19 @@ public class PublicEventService {
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
     private final StatClient statClient;
+    private final EventViewsService eventViewsService;
 
     @Transactional
     public EventFullDto getEvent(Long id, HttpServletRequest request) {
         Event event = eventRepository.findEventByIdAndState(id, EventState.PUBLISHED)
                 .orElseThrow(() -> new NotFoundException("Event with id=" + id + " was not found"));
 
-        addViewToEvent(id);
+        eventViewsService.addViewToEvent(id);
         statClient.saveHit(HitCreator.createHit(request, LocalDateTime.now()));
 
         return eventMapper.toEventFullDto(event);
     }
 
-    @Transactional
     public List<EventDto> getEvents(HttpServletRequest request, String text, List<Long> categoryIds, Boolean paid,
                                     LocalDateTime rangeStart, LocalDateTime rangeEnd, Boolean onlyAvailable,
                                     EventSortType sort, Integer from, Integer size) {
@@ -61,19 +61,9 @@ public class PublicEventService {
                 rangeStart, rangeEnd, onlyAvailable, EventState.PUBLISHED);
 
         List<Event> events = eventRepository.findAll(specifications, pageable).getContent();
-        List<Long> eventsIds = events.stream().map(Event::getId).toList();
 
-        addViewToEvents(eventsIds);
         statClient.saveHit(HitCreator.createHit(request, LocalDateTime.now()));
 
         return events.stream().map(eventMapper::toEventDto).toList();
-    }
-
-    private void addViewToEvent(Long id) {
-        eventRepository.incrementView(id);
-    }
-
-    private void addViewToEvents(List<Long> ids) {
-        eventRepository.incrementViews(ids);
     }
 }

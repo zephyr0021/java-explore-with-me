@@ -58,9 +58,9 @@ public class GlobalErrorHandler {
                 LocalDateTime.now());
     }
 
-    @ExceptionHandler(EventUpdateException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErrorResponse handleEventUpdateException(EventUpdateException e) {
+    @ExceptionHandler(EventForbiddenException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleEventUpdateException(EventForbiddenException e) {
         return new ErrorResponse("FORBIDDEN", "For the requested operation the conditions are not met.",
                 e.getMessage(), LocalDateTime.now());
     }
