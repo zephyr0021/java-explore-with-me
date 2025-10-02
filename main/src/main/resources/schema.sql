@@ -38,5 +38,6 @@ CREATE TABLE IF NOT EXISTS events_requests
     event_id BIGINT NOT NULL REFERENCES events (id) ON DELETE CASCADE,
     status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
     requester_id BIGINT NOT NULL REFERENCES users (id),
+    created_on TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     CONSTRAINT request_valid_status CHECK (status IN ('PENDING', 'REJECTED', 'CONFIRMED'))
 )
