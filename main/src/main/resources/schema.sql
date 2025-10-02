@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS events
     paid               BOOLEAN DEFAULT FALSE       NOT NULL,
     participant_limit  INTEGER DEFAULT 0           NOT NULL,
     request_moderation BOOLEAN DEFAULT TRUE        NOT NULL,
-    title              VARCHAR(120)                NOT NULL,
+    event_title              VARCHAR(120)                NOT NULL,
     created_on         TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     initiator_id            BIGINT                      NOT NULL REFERENCES users (id),
     views              BIGINT  DEFAULT 0           NOT NULL,
@@ -39,5 +39,5 @@ CREATE TABLE IF NOT EXISTS events_requests
     status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
     requester_id BIGINT NOT NULL REFERENCES users (id),
     created_on TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    CONSTRAINT request_valid_status CHECK (status IN ('PENDING', 'REJECTED', 'CONFIRMED'))
+    CONSTRAINT request_valid_status CHECK (status IN ('PENDING', 'CONFIRMED'))
 )

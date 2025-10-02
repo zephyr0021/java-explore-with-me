@@ -47,7 +47,7 @@ public class Event {
     @Column(nullable = false, name = "request_moderation")
     private Boolean requestModeration;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "event_title")
     private String title;
 
     @Column(nullable = false, name = "created_on")

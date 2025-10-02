@@ -47,18 +47,21 @@ public class AdminEventService {
         Event newEvent = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found"));
 
-        if (newEvent.getEventDate().isBefore(newEvent.getPublishedOn().plusHours(1))) {
+        if (newEvent.getPublishedOn() != null &&
+                newEvent.getEventDate().isBefore(newEvent.getPublishedOn().plusHours(1))) {
             throw new EventForbiddenException("Impossible to update the event because " +
                     "its start date is earlier than 1 hour after publication.");
         }
 
         EventState state = newEvent.getState();
+        AdminEventStateAction stateAction = request.getStateAction();
 
-        if (request.getStateAction() == AdminEventStateAction.PUBLISH_EVENT && state != EventState.PENDING) {
+
+        if (stateAction == AdminEventStateAction.PUBLISH_EVENT && state != EventState.PENDING) {
             throw new EventForbiddenException("Cannot publish the event because it's not in the right state: " + state);
         }
 
-        if (request.getStateAction() == AdminEventStateAction.REJECT_EVENT && state == EventState.PUBLISHED) {
+        if (stateAction == AdminEventStateAction.REJECT_EVENT && state == EventState.PUBLISHED) {
             throw new EventForbiddenException("Cannot reject the event because it's not in the right state: " + state);
         }
 
@@ -67,6 +70,10 @@ public class AdminEventService {
         if (categoryId != null) {
             Category category = categoryService.getCategoryModel(categoryId);
             newEvent.setCategory(category);
+        }
+
+        if (stateAction == AdminEventStateAction.PUBLISH_EVENT) {
+            newEvent.setPublishedOn(LocalDateTime.now());
         }
 
         newEvent = eventMapper.updateEvent(request, newEvent);

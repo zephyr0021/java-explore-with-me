@@ -27,6 +27,8 @@ public interface EventRepository extends JpaRepository<Event, Long>, JpaSpecific
 
     Page<EventShort> findByInitiator(User user, Pageable pageable);
 
+    Optional<Event> findById(Long id);
+
     @Modifying
     @Query("UPDATE Event e SET e.views = e.views + 1 WHERE e.id = :eventId")
     void incrementView(Long eventId);}

@@ -7,6 +7,8 @@ import lombok.ToString;
 import ru.practicum.ewm.event.model.Event;
 import ru.practicum.ewm.user.model.User;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "events_requests")
 @Getter
@@ -29,4 +31,7 @@ public class EventRequest {
 
     @Enumerated(EnumType.STRING)
     private EventRequestStatus status;
+
+    @Column(name = "created_on")
+    private LocalDateTime created;
 }

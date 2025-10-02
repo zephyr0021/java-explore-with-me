@@ -1,10 +1,8 @@
 package ru.practicum.ewm.event_request.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.event_request.dto.EventRequestDto;
 import ru.practicum.ewm.event_request.service.EventRequestService;
 
@@ -19,5 +17,16 @@ public class EventRequestController {
     @GetMapping
     public List<EventRequestDto> getUserEventRequests(@PathVariable Long userId) {
         return eventRequestService.getUserEventRequests(userId);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public EventRequestDto createUserEventRequest(@PathVariable Long userId, @RequestParam Long eventId) {
+        return eventRequestService.createEventRequest(userId, eventId);
+    }
+
+    @PatchMapping("/{requestId}/cancel")
+    public EventRequestDto cancelEventRequest(@PathVariable Long userId, @PathVariable Long requestId) {
+        return eventRequestService.cancelEventRequest(userId, requestId);
     }
 }

@@ -65,5 +65,12 @@ public class GlobalErrorHandler {
                 e.getMessage(), LocalDateTime.now());
     }
 
+    @ExceptionHandler(ConflictEventRequestException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleConflictEventRequestException(ConflictEventRequestException e) {
+        return new ErrorResponse("CONFLICT", "Integrity constraint has been violated.",
+                e.getMessage(), LocalDateTime.now());
+    }
+
 
 }

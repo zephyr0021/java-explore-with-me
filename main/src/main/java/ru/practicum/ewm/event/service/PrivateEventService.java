@@ -51,10 +51,9 @@ public class PrivateEventService {
                 .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found"));
     }
 
-    public Event getUserEventModel(Long userId, Long eventId) {
-        User user = userService.getUserModel(userId);
+    public Event getEventModel(Long eventId) {
 
-        return eventRepository.findEventByIdAndInitiator(eventId, user)
+        return eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found"));
     }
 
