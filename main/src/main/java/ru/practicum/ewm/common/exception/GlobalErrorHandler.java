@@ -72,5 +72,12 @@ public class GlobalErrorHandler {
                 e.getMessage(), LocalDateTime.now());
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleBadRequestException(BadRequestException e) {
+        return new ErrorResponse("BAD_REQUEST", "Incorrectly made request.", e.getMessage(),
+                LocalDateTime.now());
+    }
+
 
 }

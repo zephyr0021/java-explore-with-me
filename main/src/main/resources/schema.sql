@@ -39,5 +39,5 @@ CREATE TABLE IF NOT EXISTS events_requests
     status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
     requester_id BIGINT NOT NULL REFERENCES users (id),
     created_on TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    CONSTRAINT request_valid_status CHECK (status IN ('PENDING', 'CONFIRMED'))
+    CONSTRAINT request_valid_status CHECK (status IN ('PENDING', 'CONFIRMED', 'REJECTED'))
 )

@@ -57,6 +57,13 @@ public class PrivateEventService {
                 .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found"));
     }
 
+    public Event getUserEventModel(Long userId, Long eventId) {
+        User user = userService.getUserModel(userId);
+
+        return eventRepository.findEventByIdAndInitiator(eventId, user)
+                .orElseThrow(() -> new NotFoundException("Event with id=" + eventId + " was not found"));
+    }
+
     @Transactional
     public EventFullDto updateUserEvent(Long userId, Long eventId, PublicUpdateEventRequest request) {
         userService.getUserModel(userId);
@@ -113,4 +120,6 @@ public class PrivateEventService {
 
         return eventMapper.toEventFullDto(event);
     }
+
+
 }
