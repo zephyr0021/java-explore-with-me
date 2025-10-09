@@ -15,6 +15,7 @@ import ru.practicum.ewm.user.service.UserService;
 
 import java.util.ArrayList;
 
+import static org.instancio.Select.field;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -38,7 +39,9 @@ public class UserControllerTests {
 
     @Test
     void createUser() throws Exception {
-        NewUserRequest request = Instancio.create(NewUserRequest.class);
+        NewUserRequest request = Instancio.of(NewUserRequest.class)
+                .set(field(NewUserRequest::getEmail), "text@example.com")
+                .create();
         UserDto userDto = new UserDto();
         userDto.setId(1L);
         userDto.setEmail(request.getEmail());
