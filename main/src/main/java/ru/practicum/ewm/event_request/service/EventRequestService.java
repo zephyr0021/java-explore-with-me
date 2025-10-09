@@ -55,12 +55,12 @@ public class EventRequestService {
         Event event = privateEventService.getEventModel(eventId);
         Optional<EventRequest> existingEventRequest = eventRequestRepository
                 .findByEventIdAndRequesterId(eventId, userId);
-        Integer eventRequestsCount = eventRequestRepository.countEventRequestByEvent(event);
 
         if (existingEventRequest.isPresent() ||
                 event.getInitiator().getId().equals(userId) ||
                 event.getState() != EventState.PUBLISHED ||
-                Objects.equals(event.getParticipantLimit(), eventRequestsCount)
+                (Objects.equals(event.getParticipantLimit(), event.getConfirmedRequests())
+                        && event.getParticipantLimit() != 0)
         ) {
             throw new ConflictEventRequestException("Event_request cannot be created");
         }
@@ -71,7 +71,7 @@ public class EventRequestService {
         eventRequest.setEvent(event);
         eventRequest.setCreated(LocalDateTime.now());
 
-        if (!event.getRequestModeration()) {
+        if (!event.getRequestModeration() || event.getParticipantLimit() == 0) {
             eventRequest.setStatus(EventRequestStatus.CONFIRMED);
         } else {
             eventRequest.setStatus(EventRequestStatus.PENDING);
@@ -86,7 +86,7 @@ public class EventRequestService {
         EventRequest eventRequest = eventRequestRepository.findByIdAndRequesterId(requestId, userId)
                 .orElseThrow(() -> new NotFoundException("Request with id=" + requestId + " was not found"));
 
-        eventRequest.setStatus(EventRequestStatus.PENDING);
+        eventRequest.setStatus(EventRequestStatus.CANCELED);
 
         eventRequest = eventRequestRepository.save(eventRequest);
 

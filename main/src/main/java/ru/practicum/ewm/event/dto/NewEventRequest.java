@@ -1,10 +1,7 @@
 package ru.practicum.ewm.event.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import ru.practicum.ewm.event.model.Location;
 
@@ -32,8 +29,8 @@ public class NewEventRequest {
 
     private Boolean paid = false;
 
-    @Positive
-    private Integer participantLimit = 0;
+    @PositiveOrZero
+    private Long participantLimit = 0L;
 
     private Boolean requestModeration = true;
 

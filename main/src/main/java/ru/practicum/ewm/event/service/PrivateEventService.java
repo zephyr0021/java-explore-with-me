@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.category.service.CategoryService;
 import ru.practicum.ewm.common.custom.OffsetBasedPageRequest;
+import ru.practicum.ewm.common.exception.BadRequestException;
 import ru.practicum.ewm.common.exception.EventForbiddenException;
 import ru.practicum.ewm.common.exception.NotFoundException;
 import ru.practicum.ewm.event.dto.EventDto;
@@ -101,7 +102,7 @@ public class PrivateEventService {
     public EventFullDto createEvent(Long userId, NewEventRequest request) {
         LocalDateTime eventDate = request.getEventDate();
         if (eventDate.isBefore(LocalDateTime.now().plusHours(2))) {
-            throw new EventForbiddenException("Field: eventDate. Error: должно содержать дату, " +
+            throw new BadRequestException("Field: eventDate. Error: должно содержать дату, " +
                     "которая еще не наступила. Value: " + eventDate);
         }
 

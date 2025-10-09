@@ -42,7 +42,7 @@ public class Event {
     private Boolean paid;
 
     @Column(nullable = false, name = "participant_limit")
-    private Integer participantLimit;
+    private Long participantLimit;
 
     @Column(nullable = false, name = "request_moderation")
     private Boolean requestModeration;
@@ -58,7 +58,7 @@ public class Event {
     @JoinColumn(name = "initiator_id")
     private User initiator;
 
-    @Column(nullable = false)
+    @Formula("(SELECT COUNT(ev.id) FROM events_views ev WHERE ev.event_id = id)")
     private Long views;
 
     @Column(name = "published_on")
