@@ -6,8 +6,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import ru.practicum.ewm.event.model.Event;
 import ru.practicum.ewm.event.model.EventState;
 import ru.practicum.ewm.user.model.User;
@@ -23,12 +21,12 @@ public interface EventRepository extends JpaRepository<Event, Long>, JpaSpecific
 
     Optional<Event> findEventByIdAndInitiator(Long id, User initiator);
 
-    Page<Event> findAll (Specification<Event> specification, Pageable pageable);
+    Page<Event> findAll(Specification<Event> specification, Pageable pageable);
 
     Page<EventShort> findByInitiator(User user, Pageable pageable);
 
     Optional<Event> findById(Long id);
 
-    @Modifying
-    @Query("UPDATE Event e SET e.views = e.views + 1 WHERE e.id = :eventId")
-    void incrementView(Long eventId);}
+    List<Event> findAllByIdIn(List<Long> ids);
+
+}

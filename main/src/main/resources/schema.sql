@@ -47,4 +47,18 @@ CREATE TABLE IF NOT EXISTS events_views
     event_id BIGINT      NOT NULL REFERENCES events (id) ON DELETE CASCADE,
     ip       VARCHAR(45) NOT NULL,
     CONSTRAINT uq_event_ip UNIQUE (event_id, ip)
-)
+);
+
+CREATE TABLE IF NOT EXISTS compilations
+(
+    id       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    pinned BOOLEAN NOT NULL,
+    title VARCHAR(50)
+);
+
+CREATE TABLE IF NOT EXISTS events_compilations
+(
+    event_id BIGINT NOT NULL REFERENCES events(id) ON DELETE CASCADE,
+    compilation_id BIGINT NOT NULL REFERENCES compilations(id) ON DELETE CASCADE,
+    PRIMARY KEY (event_id, compilation_id)
+);
