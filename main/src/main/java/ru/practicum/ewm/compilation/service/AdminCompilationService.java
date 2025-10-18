@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.common.exception.NotFoundException;
 import ru.practicum.ewm.compilation.dto.CompilationDto;
 import ru.practicum.ewm.compilation.dto.CompilationRequest;
+import ru.practicum.ewm.compilation.dto.UpdateCompilationRequest;
 import ru.practicum.ewm.compilation.mapper.CompilationMapper;
 import ru.practicum.ewm.compilation.model.Compilation;
 import ru.practicum.ewm.compilation.repository.CompilationRepository;
@@ -42,7 +43,8 @@ public class AdminCompilationService {
         }
     }
 
-    public CompilationDto updateCompilation(Long id, CompilationRequest request) {
+    @Transactional
+    public CompilationDto updateCompilation(Long id, UpdateCompilationRequest request) {
         List<Event> events = eventRepository.findAllByIdIn(request.getEvents());
         Compilation newCompilation = compilationRepository.findById(id)
                 .map(compilation -> compilationMapper.updateCompilation(request, compilation))
