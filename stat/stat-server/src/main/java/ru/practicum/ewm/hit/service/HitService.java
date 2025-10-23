@@ -3,6 +3,7 @@ package ru.practicum.ewm.hit.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.ewm.exception.BadDateException;
 import ru.practicum.ewm.hit.dto.HitDto;
 import ru.practicum.ewm.hit.dto.NewEndpointHitRequest;
 import ru.practicum.ewm.hit.mapper.HitMapper;
@@ -27,6 +28,9 @@ public class HitService {
 
     public List<HitDto> getStat(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         List<HitShort> stat;
+        if (start.isAfter(end) || start.equals(end)) {
+            throw new BadDateException("Неверные даты начала и конца диапазона времени");
+        }
         if (Boolean.TRUE.equals(unique)) {
             stat = hitRepository.findUniqueIpHitsByDate(start, end, uris);
         } else {

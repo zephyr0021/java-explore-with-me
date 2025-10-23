@@ -31,6 +31,12 @@ public class StatGlobalErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleBadDateException(BadDateException ex) {
+        return new ErrorResponse("validation error", ex.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleTimestampValidationException(InvalidFormatException ex) {
         String fieldPath = ex.getPath()
                 .stream()
