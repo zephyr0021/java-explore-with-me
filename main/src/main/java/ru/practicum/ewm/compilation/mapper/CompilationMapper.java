@@ -7,7 +7,7 @@ import ru.practicum.ewm.compilation.dto.UpdateCompilationRequest;
 import ru.practicum.ewm.compilation.model.Compilation;
 
 @Mapper(componentModel = "spring")
-public interface CompilationMapper{
+public interface CompilationMapper {
     @Mapping(target = "events", ignore = true)
     Compilation toCompilation(CompilationRequest request);
 

@@ -16,7 +16,7 @@ public interface EventRequestMapper {
         return event.getId();
     }
 
-    default Long map (User user) {
+    default Long map(User user) {
         return user.getId();
     }
 }

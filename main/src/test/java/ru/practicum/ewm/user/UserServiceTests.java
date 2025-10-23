@@ -79,8 +79,8 @@ public class UserServiceTests {
 
         List<UserDto> usersDto = userService.getUsers(ids, 0, 10);
 
-        verify(userRepository, times(1)).
-                findByIdAndOffset(anyList(), anyInt(), anyInt());
+        verify(userRepository, times(1))
+                .findByIdAndOffset(anyList(), anyInt(), anyInt());
         assertEquals(users.size(), usersDto.size());
     }
 
