@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Formula;
+import org.hibernate.proxy.HibernateProxy;
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.user.model.User;
 
@@ -72,15 +73,18 @@ public class Event {
     private Long confirmedRequests;
 
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null) return false;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) return false;
         Event event = (Event) o;
-        return Objects.equals(id, event.id);
+        return getId() != null && Objects.equals(getId(), event.getId());
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
+    public final int hashCode() {
+        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
 }
