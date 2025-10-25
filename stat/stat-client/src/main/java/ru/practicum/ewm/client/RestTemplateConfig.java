@@ -10,7 +10,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 @Configuration
 public class RestTemplateConfig {
-    @Value("${ewm-server.url}")
+    @Value("${ewm-stat-server.url}")
     private String serverUrl;
 
     @Bean

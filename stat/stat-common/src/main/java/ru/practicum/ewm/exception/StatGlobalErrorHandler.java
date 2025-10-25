@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @Slf4j
-public class GlobalErrorHandler {
+public class StatGlobalErrorHandler {
     @ExceptionHandler()
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidationException(MethodArgumentNotValidException ex) {
@@ -27,6 +27,12 @@ public class GlobalErrorHandler {
         log.warn("Ошибка валидации: {}", errors);
 
         return new ErrorResponse("validation error", message);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleBadDateException(BadDateException ex) {
+        return new ErrorResponse("validation error", ex.getMessage());
     }
 
     @ExceptionHandler

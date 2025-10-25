@@ -17,22 +17,26 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/ewm-hits
       - SPRING_DATASOURCE_USERNAME=dbuser
       - SPRING_DATASOURCE_PASSWORD=12345
-
-  stats-client:
+  evm-service:
     ports:
       - "8080:8080"
-    build: stat/stat-client
-    image: stat-client
-    container_name: stat-client
+    build: main
+    image: evm-server
+    container_name: evm-server
     depends_on:
-      - stats-server
+      main-db:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/" ]
       interval: 10s
       timeout: 5s
       retries: 5
     environment:
-      - STATS_SERVER_URL=http://server:9090
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/ewm-main
+      - SPRING_DATASOURCE_USERNAME=dbuser
+      - SPRING_DATASOURCE_PASSWORD=12345
+      - EWM_STAT_SERVER_URL=http://stats-server:9090
+
 
   stats-db:
     image: postgres:16.1
@@ -50,3 +54,22 @@ services:
       timeout: 5s
       interval: 5s
       retries: 10
+
+  main-db:
+    image: postgres:16.1
+    container_name: main-db
+    ports:
+      - "6432:5432"
+    volumes:
+      - ./main-postgres:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_USER=dbuser
+      - POSTGRES_DB=ewm-main
+    healthcheck:
+      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+      timeout: 5s
+      interval: 5s
+      retries: 10
+
+
