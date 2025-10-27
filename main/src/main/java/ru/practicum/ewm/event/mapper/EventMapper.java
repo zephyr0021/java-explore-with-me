@@ -2,13 +2,14 @@ package ru.practicum.ewm.event.mapper;
 
 import org.mapstruct.*;
 import ru.practicum.ewm.category.mapper.CategoryMapper;
+import ru.practicum.ewm.comment.mapper.CommentMapper;
 import ru.practicum.ewm.event.dto.*;
 import ru.practicum.ewm.event.model.Event;
 import ru.practicum.ewm.event.model.EventState;
 import ru.practicum.ewm.event.repository.EventShort;
 import ru.practicum.ewm.user.mapper.UserMapper;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class, CategoryMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class, CategoryMapper.class, CommentMapper.class})
 public interface EventMapper {
 
     EventFullDto toEventFullDto(Event event);

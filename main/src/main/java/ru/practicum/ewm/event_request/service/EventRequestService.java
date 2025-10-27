@@ -3,7 +3,7 @@ package ru.practicum.ewm.event_request.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.common.exception.BadRequestException;
-import ru.practicum.ewm.common.exception.ConflictEventRequestException;
+import ru.practicum.ewm.common.exception.ConflictException;
 import ru.practicum.ewm.common.exception.NotFoundException;
 import ru.practicum.ewm.event.model.Event;
 import ru.practicum.ewm.event.model.EventState;
@@ -62,7 +62,7 @@ public class EventRequestService {
                 (Objects.equals(event.getParticipantLimit(), event.getConfirmedRequests())
                         && event.getParticipantLimit() != 0)
         ) {
-            throw new ConflictEventRequestException("Event_request cannot be created");
+            throw new ConflictException("Event_request cannot be created");
         }
 
         EventRequest eventRequest = new EventRequest();
@@ -104,7 +104,7 @@ public class EventRequestService {
             return result;
         }
         if (isParticipantLimitOver) {
-            throw new ConflictEventRequestException("The participant limit has been reached");
+            throw new ConflictException("The participant limit has been reached");
         }
 
         for (EventRequest eventRequest : eventRequests) {
