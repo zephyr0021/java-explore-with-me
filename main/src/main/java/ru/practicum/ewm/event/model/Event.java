@@ -7,9 +7,11 @@ import lombok.ToString;
 import org.hibernate.annotations.Formula;
 import org.hibernate.proxy.HibernateProxy;
 import ru.practicum.ewm.category.model.Category;
+import ru.practicum.ewm.comment.model.Comment;
 import ru.practicum.ewm.user.model.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -71,6 +73,10 @@ public class Event {
 
     @Formula("(SELECT COUNT(er.id) FROM events_requests er WHERE er.event_id = id AND er.status='CONFIRMED')")
     private Long confirmedRequests;
+
+    @OneToMany(mappedBy = "event")
+    @ToString.Exclude
+    private List<Comment> comments;
 
     @Override
     public final boolean equals(Object o) {
